@@ -1,6 +1,6 @@
 name: grade exercise 8
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       issue_trig:
@@ -8,23 +8,23 @@ on:
         type: string
       user:
         required: true
-        type: string 
+        type: string
 
-jobs: 
+jobs:
 
-  start_job: 
+  start_job:
     runs-on: ubuntu-latest
 
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: testing-pure
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.10"      
+          python-version: "3.10"
 
       - name: grade ex8
         id: grading
@@ -33,26 +33,26 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
 
-          #check if testing branch on this repo has a python test that passes 
-          #git checkout testing -- in theory this is done by checkout action 
+          #check if testing branch on this repo has a python test that passes
+          #git checkout testing -- in theory this is done by checkout action
           pytest testing/pure-factorial.py
 
-        env: 
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: comment on issue if wrong
         if: steps.grading.outcome == 'failure'
         run: |
-          echo $ISSUE        
-          gh issue comment $ISSUE --body "$BODY"  
+          echo $ISSUE
+          gh issue comment $ISSUE --body "$BODY"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: Please take a look at your answer
           ISSUE: ${{ inputs.issue_trig }}
 
-       #if grading setp was succesfull 
+       #if grading setp was succesfull
        #checkout the score branch, change the score file and commit it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: steps.grading.outcome != 'failure'
         with:
           ref: score
@@ -63,7 +63,7 @@ jobs:
         run: |
           sed -i '/python:/s/$/:star2: /' score.md
           sed -i '/testing:/s/$/:star2: /' score.md
-      
+
       - uses: EndBug/add-and-commit@v9
         if: steps.grading.outcome != 'failure'
         with:
@@ -80,4 +80,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ inputs.issue_trig }}
-

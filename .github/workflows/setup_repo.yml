@@ -8,14 +8,14 @@ on:
 
 jobs:
   build:
-  
+
     runs-on: ubuntu-latest
     permissions:
       contents: write
       issues: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -25,12 +25,12 @@ jobs:
 
           gh label clone FZJ-JSC/rse-scavenger-hunt
 
-          #open all the files in the exercises folder as issues 
+          #open all the files in the exercises folder as issues
           #the folder only holds files like exercise_.md
           for name in $(ls -v exercises)
-          do 
-            TITLE=$(basename -s ".md" "$name") 
-            ISSUE_FILE="exercises/${name}" 
+          do
+            TITLE=$(basename -s ".md" "$name")
+            ISSUE_FILE="exercises/${name}"
             #read the labels from the comment at bottom of each file
             LABELS=$(tail -n 2 $ISSUE_FILE | head -n 1 | awk -F '[()]' '{print $2}')
             gh issue create --title "$TITLE" --body-file "$ISSUE_FILE" --label "$LABELS"  --repo $GITHUB_REPOSITORY
@@ -38,21 +38,17 @@ jobs:
 
           #create branch that will keep track of the score
           git checkout -b score
-          
-          sed -i '/setup:/s/$/:star2: /' score.md       
 
-        env: 
+          sed -i '/setup:/s/$/:star2: /' score.md
+
+        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-        #use action to commit and push    
+
+        #use action to commit and push
       - uses: EndBug/add-and-commit@v9
         with:
           default_author: github_actions
           add: 'score.md'
           message: 'update score with setup star'
           new_branch: score
-          tag_push: '--set-upstream origin' 
-    
-           
-           
-
+          tag_push: '--set-upstream origin'
