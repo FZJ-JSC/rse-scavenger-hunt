@@ -9,6 +9,8 @@ The idea comes from a [scavenger hunt](https://en.wikipedia.org/wiki/Scavenger_h
 
 We suggest exercises that build on community tutorials and lessons, after an exercise is finished it can be evaluated and one or more tokens can be collected.
 
+**Note: This project is in an early development phase**
+
 ## Setup    
 
 1. Fork this repository
