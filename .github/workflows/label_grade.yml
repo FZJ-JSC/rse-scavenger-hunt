@@ -6,7 +6,7 @@ on:
   issues:
     types: [labeled]
 
-  # Allows to run workflow manually 
+  # Allows to run workflow manually
   workflow_dispatch:
 
 jobs:
@@ -17,28 +17,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
- 
+
 
       - name: grade exercise
         run: |
 
-          #get workflow name to run, which is isse_title.yml, eg exercise1.yml...etc 
+          #get workflow name to run, which is isse_title.yml, eg exercise1.yml...etc
           EX_WORKFLOW="$ISSUE_TITLE.yml"
-          
+
           #for now not sending the title using contexts, I can get it in the next workflow with the html_url
-          #also see 
+          #also see
           #https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#understanding-the-risk-of-script-injections
           gh workflow run "$EX_WORKFLOW" -f issue_trig=${{ github.event.issue.html_url }} -f user=${{ github.actor }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
-      
-
-
-
-
-
-     

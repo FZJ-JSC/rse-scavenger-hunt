@@ -1,6 +1,6 @@
 name: grade exercise 1
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       issue_trig:
@@ -8,21 +8,21 @@ on:
         type: string
       user:
         required: true
-        type: string 
+        type: string
 
-jobs: 
+jobs:
 
-  start_job: 
+  start_job:
     runs-on: ubuntu-latest
     steps:
       - name: grade ex1
         id: grading
         run: |
-          
+
           #check if repo with name recipes exist for this user
           found_repo=$(gh repo list "$USER" --json "name" --jq 'any(.[]; .name == "recipes")')
           echo $found_repo
-          
+
           #give correct pass or no if grading went well
           #in this case repo was found
           if $found_repo
@@ -31,13 +31,13 @@ jobs:
           else
             echo "correct=no" >> "$GITHUB_OUTPUT"
           fi
-        env: 
+        env:
           USER: ${{ inputs.user }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         #checkout score branch, so that star can be added in case
-        #exercise was succesful        
-      - uses: actions/checkout@v3
+        #exercise was succesful
+      - uses: actions/checkout@v4
         with:
           ref: score
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -45,8 +45,8 @@ jobs:
       - name: comment on issue if wrong
         if: steps.grading.outputs.correct != 'pass'
         run: |
-          echo $ISSUE        
-          gh issue comment $ISSUE --body "$BODY"  
+          echo $ISSUE
+          gh issue comment $ISSUE --body "$BODY"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BODY: Please take a look at your answer
@@ -72,4 +72,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ inputs.issue_trig }}
-
