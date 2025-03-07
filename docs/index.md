@@ -13,5 +13,6 @@ We will guide you through the project and the steps to get started!
 
 A [scavenger hunt](https://en.wikipedia.org/wiki/Scavenger_hunt) is a game with a list of items to be collected, and the goal is to collect as many items as possible. In our approach, we have a list of exercises which help practicing various skills. Everytime you successfully finish an exercise, a score board will be updated with tokens (stars) corresponding to those skills. 
   
+!!! note
 
-
+This project is in an early development phase

@@ -4,3 +4,6 @@ nav:
   - Setup: setup.md
   - Start collecting tokens: play.md
 theme: readthedocs
+
+markdown_extensions:
+  - admonition
