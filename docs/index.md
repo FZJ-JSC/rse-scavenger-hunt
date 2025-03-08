@@ -15,4 +15,4 @@ A [scavenger hunt](https://en.wikipedia.org/wiki/Scavenger_hunt) is a game with 
   
 !!! note
 
-This project is in an early development phase
+    This project is in an early development phase
