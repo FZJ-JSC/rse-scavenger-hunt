@@ -37,7 +37,7 @@ jobs:
 
         #checkout score branch, so that star can be added in case
         #exercise was succesful
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: score
           token: ${{ secrets.GITHUB_TOKEN }}
