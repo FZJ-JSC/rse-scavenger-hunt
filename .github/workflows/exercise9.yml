@@ -17,7 +17,7 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: testing-pure-julia
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
 
        #if grading setp was succesfull
        #checkout the score branch, change the score file and commit it
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         if: steps.grading.outcome != 'failure'
         with:
           ref: score
